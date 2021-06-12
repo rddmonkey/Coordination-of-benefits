@@ -13,12 +13,34 @@ class Cob:
 
     def primaryzerodeduct(self):
         return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. coins = ${self.coins}. " \
-               f"Deduct = ${self.deduct}. Paying Deduct, {self.deduct}, as Deduct is less than Allowable."
+               f"Deduct = ${self.deduct}. Allowable minus primary payment = ${self.allowed} - ${self.primary}" \
+               f" = {difference}  Paying Deduct, {self.deduct}, as Deduct is less than Allowable minus" \
+               f"primary payment."
+
+    def differencedeductsame(self):
+        return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. coins = ${self.coins}. " \
+               f"Deduct = ${self.deduct}. Allowable minus primary payment = ${self.allowed} - ${self.primary}" \
+               f" = {difference}. Deduct equals difference between allowable minus primary payment, " \
+               f"paying deduct ${self.deduct}"
 
     def allowlessdeduct(self):
+        solution = self.allowed - self.primary
         return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. coins = ${self.coins}. " \
-               f"Deduct = ${self.deduct}. Paying Allowable, {self.allowed}, as allowable is less than deduct."
+               f"Deduct = ${self.deduct}. Allowable minus primary payment = ${self.allowed} - ${self.primary}" \
+               f" = {difference}. Paying Difference between Allowable minus Primary payment" \
+               f" ${solution}, as allowable is less than deduct."
 
+    def deductcoinsnotzero(self):
+        return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. coins = ${self.coins}. " \
+               f"Deduct = ${self.deduct}. Allowable minus primary payment = ${self.allowed} - ${self.primary}" \
+               f" = {difference}. Paying Deduct + coins {(self.deduct + self.coins)} as this " \
+               f"is less than allowable"
+
+    def coinsplusdeducthigherdifference(self):
+        return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. coins = ${self.coins}. " \
+               f"Deduct = ${self.deduct}. Allowable minus primary payment = ${self.allowed} - ${self.primary}" \
+               f" = {difference}. Paying difference between allowable minus primary payment {difference}" \
+               f" as this is less than deduct plus coins"
 
 if __name__ == "__main__":
     print(f"Please enter Primary payment: ")
@@ -62,11 +84,27 @@ if __name__ == "__main__":
                 print(f"Please enter Deduct: ")
                 deductpay = input()
 
+
+    difference = allowedpay - primarypay
+
     if primarypay > allowedpay:
+        #if Primary payment exceeds allowable
         print(Cob(primary=primarypay, allowed=allowedpay).primaryhallowed())
 
-    elif deductpay < allowedpay:
-        print(Cob(primary=primarypay, allowed=allowedpay, deduct=deductpay).primaryzerodeduct())
+    elif deductpay == difference:
+        #if deduct equals allowable minus primary payment
+        #paying deduct
+        print(Cob(primary=primarypay,allowed=allowedpay,deduct=deductpay,coins=coinspay).differencedeductsame())
 
-    elif deductpay > allowedpay:
-        print(Cob(primary=primarypay, allowed=allowedpay, deduct=deductpay).allowlessdeduct())
+    elif deductpay < difference and coinspay == 0:
+        #if deduct is less than difference between allowable minus primary and there is no coins
+        #paying deduct
+        print(Cob(primary=primarypay, allowed=allowedpay, deduct=deductpay,coins=coinspay).primaryzerodeduct())
+
+    elif deductpay < difference and coinspay != 0:
+        if coinspay + deductpay > difference:
+            print(Cob(primary=primarypay,allowed=allowedpay,deduct=deductpay,coins=coinspay).coinsplusdeducthigherdifference())
+        else:
+            print(Cob(primary=primarypay,allowed=allowedpay,deduct=deductpay,coins=coinspay).deductcoinsnotzero())
+
+
