@@ -8,7 +8,6 @@ class Cob:
         self.coins = coins
         self.deduct = deduct
 
-
     def primaryhallowed(self):
         return f"Primary payment = ${self.primary}, Allowable = ${self.allowed}. Primary payment exceeds allowable"
 
@@ -30,8 +29,14 @@ class Cob:
                f"is less than allowable minus primary payment"
 
     def coinsplusdeducthigherdifference(self):
-        return f"{cobinfo} Paying difference between allowable minus primary payment {difference}" \
+        return f"{cobinfo} Paying difference between allowable minus primary payment ${difference}" \
                f" as this is less than deduct plus coins"
+
+    def deductgreaterdifference(self):
+        return f"{cobinfo} Paying difference between Allowable minus Primary payment ${difference} as this is less than deduct"
+
+coinspay = 0
+deductpay = 0
 
 if __name__ == "__main__":
     print(f"Please enter Primary payment: ")
@@ -75,16 +80,15 @@ if __name__ == "__main__":
                 print(f"Please enter Deduct: ")
                 deductpay = input()
 
-
     difference = allowedpay - primarypay
 
     cobinfo = f"Primary payment = ${primarypay}, Allowable = ${allowedpay}. coins = ${coinspay}. " \
-                  f"Deduct = ${deductpay}. Allowable minus primary payment = ${allowedpay} - ${primarypay}" \
-                  f" = {difference}."
+              f"Deduct = ${deductpay}. Allowable minus primary payment = ${allowedpay} - ${primarypay}" \
+              f" = ${difference}."
 
     if primarypay > allowedpay:
         #if Primary payment exceeds allowable
-        print(Cob(primary=primarypay, allowed=allowedpay).primaryhallowed())
+        pc.copy(Cob(primary=primarypay, allowed=allowedpay).primaryhallowed())
 
     elif deductpay == difference:
         #if deduct equals allowable minus primary payment
@@ -102,4 +106,6 @@ if __name__ == "__main__":
         else:
             print(Cob(primary=primarypay,allowed=allowedpay,deduct=deductpay,coins=coinspay).deductcoinsnotzero())
 
+    elif deductpay > difference:
+        print(Cob(primary=primarypay,allowed=allowedpay,deduct=deductpay,coins=coinspay).deductgreaterdifference())
 
